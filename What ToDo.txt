@@ -1,0 +1,6 @@
+if same username exists in the Users flash message for the user already exists
+
+get the login required working
+
+make admin login in the login/register
+
