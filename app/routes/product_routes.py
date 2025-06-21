@@ -11,6 +11,5 @@ def view_products():
     return render_template('product.html', products=all_products)
 
 @product_bp.route('/')
-@login
 def home():
     return render_template('index.html')

@@ -7,6 +7,11 @@
 
 {% block content %}
 <h2>Create Account</h2>
+
+{% if error_Register %}
+    <p class="error">{{ error_Register }}</p>
+{% endif %}
+
 <form method="POST" action="/register">
     <div class="mb-3">
         <label>Username</label>
@@ -21,5 +26,6 @@
         <input type="password" name="password" class="form-control" required>
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
+    <button type="button" onclick="window.location.href='/login'" class="btn btn-secondary" >Already an user?</button>
 </form>
 {% endblock %}

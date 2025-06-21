@@ -1,4 +1,4 @@
-if same username exists in the Users flash message for the user already exists
+if same username exists in the Users flash message for the user already exists--Done
 
 get the login required working
 
