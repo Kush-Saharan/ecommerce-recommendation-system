@@ -6,4 +6,4 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    role=db.Column(db.String(50),default='user')
+    role=db.Column(db.String(50),nullable=False,default='user')

@@ -1,6 +1,8 @@
-from flask import Blueprint, request, jsonify,render_template,redirect,abort
+from flask import Blueprint, request,render_template,redirect,abort
 from app.models.user import User
 from app.main import db
+from flask_login import login_user,login_required,logout_user
+from app.main import login_manager
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -29,21 +31,19 @@ def login():
         password=request.form['password']
         check_user=User.query.filter_by(email=email,password=password).first()
         if check_user:
+            login_user(check_user)
             return redirect('/')
         else:
             return render_template('login.html', error_Login="Inavlid login or password")
     return render_template('login.html')
 
-@auth_bp.route('/admin_login',methods=['GET','POST'])
-def admin_login():
-    if request.method=='POST':
-        email=request.form['email']
-        password=request.form['password']
-        check_user=User.query.filter_by(email=email,password=password).first()
-        if check_user:
-            if check_user.role()=='admin':
-                return redirect('/admin/dashboard')
-        else:
-            return render_template('admin_login.html', error_Login="Inavlid login or password")
-    return render_template('admin_login.html')
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return render_template('login.html')
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
