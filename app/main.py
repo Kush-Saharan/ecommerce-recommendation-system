@@ -9,7 +9,9 @@ def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'     #makes the database named site.db
     app.config['SECRET_KEY'] = 'SomethingRandom'        #necessary for many flask_login commands
-    db.init_app(app)    
+    db.init_app(app)
+
+    login_manager.login_view = 'auth.login' 
 
     login_manager.init_app(app)
 
@@ -21,4 +23,4 @@ def create_app():
     app.register_blueprint(product_bp)
     app.register_blueprint(admin_bp)
     
-    return app
+    return app  
