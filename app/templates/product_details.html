@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block navbar %}
+    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+{% endblock navbar %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+         
+        <div class="col-md-5">
+            <div class="border p-3 bg-white text-center shadow-sm">
+                {% if product.image_url %}
+                <img src="{{ product.image_url }}" alt="{{ product.name }}" class="img-fluid" style="max-height: 400px;">
+                {% else %}
+                <img src=/static/image.png class="card-img-top" alt="No image available">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <h2>{{ product.name }}</h2>
+            <p><strong>Brand:</strong> {{ product.brand }}</p>
+            <p><strong>Category:</strong> {{ product.category }}</p>
+
+            <h3 class="text-success">₹{{ product.price }}</h3>
+
+            <button class="btn btn-primary btn-lg" disabled >Buy Now</button>
+            <a href="/product/buy/{{product.id}}" class="btn btn-primary btn-lg">Buy Now</a>
+            <button class="btn btn-outline-secondary btn-lg" disabled>Add to Cart</button>
+            <a href="/product/cart/{{product.id}}" class="btn btn-outline-secondary btn-lg">Add to Cart</a>
+            <div class="row mt-5">
+        <div class="col-md-12">
+            <h4>About this item</h4>
+            <p>{{ product.description }}</p>
+        </div>
+    </div>
+        </div>
+    </div>
+
+{% endblock %}
