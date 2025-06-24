@@ -13,3 +13,9 @@ add products--Done
 update products--Done
 remove products--Done
 
+get the buy, add to cart options working
+
+make cart option which displays items in the users cart and option to buy from there
+
+
+

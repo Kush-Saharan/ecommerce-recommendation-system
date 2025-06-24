@@ -6,6 +6,9 @@
 {% endblock navbar %}
 
 {% block content %}
+{% if message %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endif %}
 <div class="container mt-5">
     <div class="row">
          
@@ -25,6 +28,7 @@
             <p><strong>Category:</strong> {{ product.category }}</p>
 
             <h3 class="text-success">₹{{ product.price }}</h3>
+            <p><strong>quantity:</strong> {{ product.quantity }}</p>
 
             <button class="btn btn-primary btn-lg" disabled >Buy Now</button>
             <a href="/product/buy/{{product.id}}" class="btn btn-primary btn-lg">Buy Now</a>

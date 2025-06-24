@@ -49,6 +49,7 @@ def add_products():
         price=request.form['price']
         category=request.form['category']
         brand=request.form['brand']
+        quantity=request.form['quantity']
 
         existing_product=Product.query.filter_by(name=name,brand=brand).first()
 
@@ -56,9 +57,10 @@ def add_products():
             existing_product.price=price
             existing_product.description=description
             existing_product.category=category
+            existing_product.quantity=quantity
             message="Product updated successfully"
         else:
-            new_product=Product(name=name,description=description,price=price,brand=brand,category=category)
+            new_product=Product(name=name,description=description,price=price,brand=brand,category=category,quantity=quantity)
             db.session.add(new_product)
             message="Product added successfully"
         
@@ -93,6 +95,7 @@ def edit_products(id):
         product.price = request.form['price']
         product.category = request.form['category']
         product.brand = request.form['brand']
+        product.quantity=request.form['quantity']
 
         message="Product edited successfully"
 

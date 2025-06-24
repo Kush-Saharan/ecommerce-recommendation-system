@@ -8,6 +8,7 @@ class Product(db.Model):
     price = db.Column(db.Float, nullable=False)
     category = db.Column(db.String(100))
     brand = db.Column(db.String(100))
+    quantity=db.Column(db.Integer)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
