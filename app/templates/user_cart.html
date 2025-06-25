@@ -41,8 +41,8 @@
         </table>
 
         <div class="text-end">
-            <h4>Total Amount: ₹{{ total_price }}</h4>
-            <a href="/checkout" class="btn btn-success">Proceed to Checkout</a>
+            <h4 class="text-end">Total Amount: <strong>₹{{ total_amount }}</strong></h4>
+            <a href="/checkout" class="btn btn-success">Buy this Cart</a>
         </div>
     {% else %}
         <p class="alert alert-info">Your cart is empty.</p>

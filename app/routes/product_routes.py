@@ -1,5 +1,5 @@
 # routes/products.py
-from flask import Blueprint, render_template,request
+from flask import Blueprint, render_template,request,redirect
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from app.models.product import Product, db
 from app.models.user_cart import Cart
@@ -30,18 +30,44 @@ def product_details(id):
 @login_required
 def product_buy(id):
     product=Product.query.filter_by(id=id).first()
-    if product.quantity()>=1:
-        product.quantity=-1
+    if product.quantity>=1:
+        product.quantity -= 1
         user_id=current_user.id
         product_id=id
         total_price=product.price
-        order=Order(user_id=user_id,product_id=product_id,total_price=total_price)
+        order=Order(user_id=user_id,product_id=product_id,total_price=total_price,)
         message="Product Bought!"
+        db.session.add(order)
+        db.session.commit()
     else:
         message="The product is unavailable right now."
         
-    return render_template('user_cart.html',message=message)
+    return render_template('product_details.html',message=message,product=product)
+
+@product_bp.route("/user/cart", methods=['POST','GET'])
+@login_required
+def product_user_cart():
+    if request.method=='POST':
+        pass
+    else:
+        user_id=current_user.id
+        cart_items = Cart.query.filter_by(user_id=user_id).all()
+        total_amount = sum(item.product.price * item.quantity for item in cart_items)
+        return render_template('user_cart.html',cart_items=cart_items,total_amount=total_amount)
     
+@product_bp.route("/checkout",methods=['POST','GET'])
+@login_required
+def checkout():
+    user_id=current_user.id
+    cart_items=Cart.query.filter_by(user_id=user_id).all()
+    for product_id in cart_items.product_id:
+        product=Product.query.filter_by(id=product_id)
+        order=Order(user_id=user_id,product_id=product_id,total_price=product.price)
+        db.session.add(order)
+        db.session.commit()
+
+    for user_id in cart_items.user_id:
+        db.session.delete()    
 
 @product_bp.route('/product/cart/<int:id>')
 @login_required

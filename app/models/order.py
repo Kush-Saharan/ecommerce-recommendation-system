@@ -9,5 +9,5 @@ class Order(db.Model):
     total_price=db.Column(db.Integer)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
-    user = db.relationship('User', backref='cart_items')
+    user = db.relationship('User', backref='orders')
     product = db.relationship('Product')
