@@ -15,9 +15,11 @@ remove products--Done
 
 get the buy, add to cart options working--Done
 
-get the checkout working
+get the checkout working--Done
 
-make cart option which displays items in the users cart and option to buy from there
+make cart option which displays items in the users cart and option to buy from there--Done
+
+make the recommendations
 
 
 

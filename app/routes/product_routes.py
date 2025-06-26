@@ -60,14 +60,26 @@ def product_user_cart():
 def checkout():
     user_id=current_user.id
     cart_items=Cart.query.filter_by(user_id=user_id).all()
-    for product_id in cart_items.product_id:
-        product=Product.query.filter_by(id=product_id)
-        order=Order(user_id=user_id,product_id=product_id,total_price=product.price)
-        db.session.add(order)
-        db.session.commit()
+    for cart_item in cart_items:
+        product=Product.query.filter_by(id=cart_item.product_id).first()
+        if product:
+            order=Order(user_id=user_id,product_id=product.id,total_price=product.price*cart_item.quantity)
+            db.session.add(order)
+            product.quantity -= cart_item.quantity
+        else:
+            message = f"Product '{product.name}' is out of stock or insufficient quantity."
+            return render_template('user_cart.html', cart_items=cart_items, message=message)
+    db.session.commit()
 
-    for user_id in cart_items.user_id:
-        db.session.delete()    
+    for cart_item in cart_items:
+        db.session.delete(cart_item)
+    db.session.commit()
+
+    cart_items = Cart.query.filter_by(user_id=user_id).all()
+
+    message="Products Bought successfully"
+
+    return render_template('user_cart.html',cart_items=cart_items,message=message)
 
 @product_bp.route('/product/cart/<int:id>')
 @login_required
