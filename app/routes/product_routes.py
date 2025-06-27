@@ -62,7 +62,7 @@ def checkout():
     cart_items=Cart.query.filter_by(user_id=user_id).all()
     for cart_item in cart_items:
         product=Product.query.filter_by(id=cart_item.product_id).first()
-        if product:
+        if product.quantity>=cart_item.quantity:
             order=Order(user_id=user_id,product_id=product.id,total_price=product.price*cart_item.quantity)
             db.session.add(order)
             product.quantity -= cart_item.quantity
@@ -100,6 +100,23 @@ def product_cart(id):
     product=Product.query.filter_by(id=product_id).first()
 
     return render_template('product_details.html',product=product,message=message)
+
+@product_bp.route('/cart/delete/<int:id>')
+@login_required
+def remove_item(id):
+    user_id = current_user.id
+    cart_items = Cart.query.filter_by(user_id=user_id, id=id).all()
+    
+    if not cart_items:
+        message = "Item not found in your cart."
+    else:
+        for item in cart_items:
+            db.session.delete(item)
+        db.session.commit()
+        message = "Removed item successfully"
+
+    updated_cart = Cart.query.filter_by(user_id=user_id).all()
+    return render_template('user_cart.html', cart_items=updated_cart, message=message)
 
 
 @product_bp.route('/')

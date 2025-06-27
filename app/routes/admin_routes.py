@@ -57,7 +57,7 @@ def add_products():
             existing_product.price=price
             existing_product.description=description
             existing_product.category=category
-            existing_product.quantity=quantity
+            existing_product.quantity+=int(quantity)
             message="Product updated successfully"
         else:
             new_product=Product(name=name,description=description,price=price,brand=brand,category=category,quantity=quantity)
