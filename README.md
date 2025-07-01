@@ -1,3 +1,5 @@
+Note: Recommendation logic is under development. Core functionality is implemented and stable.
+
 E-commerce Product Recommendation System
 
 Objective:
